@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+//  apollo
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+//rest
 import './App.css';
 import { ThemeProvider } from "@material-ui/styles";
 import {
@@ -7,6 +13,19 @@ import {
 } from "@material-ui/core";
 
 import ResponsiveDrawer from './components/drawer'
+
+
+// 2
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000'
+})
+
+// 3
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
+
 
 const theme = createMuiTheme({
   palette: {
@@ -67,11 +86,15 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ResponsiveDrawer data_cat={this.state.data_cat} data={this.state.data} dates={this.state.dates} changeDates={this.changeDate.bind(this)} categories={this.state.categories} setValue={this.changeValue.bind(this)} options={this.state.options} toggleSelect={this.toggleSelect.bind(this)} />
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <Suspense fallback={"Loading"}>
+              <CssBaseline />
+              <ResponsiveDrawer data_cat={this.state.data_cat} data={this.state.data} dates={this.state.dates} changeDates={this.changeDate.bind(this)} categories={this.state.categories} setValue={this.changeValue.bind(this)} options={this.state.options} toggleSelect={this.toggleSelect.bind(this)} />
+            </Suspense>
+          </ThemeProvider>
+        </ApolloProvider>,
 
-        </ThemeProvider>
       </>
     )
   }
