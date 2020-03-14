@@ -89,7 +89,7 @@ function ResponsiveDrawer(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="subtitle1" noWrap>
-                        Responsive drawer
+                        App
           </Typography>
                 </Toolbar>
             </AppBar>
@@ -126,7 +126,7 @@ function ResponsiveDrawer(props) {
             </nav>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <Graph className={classes.content} />
+                <Graph className={classes.content} data={props.data} data_cat={props.data_cat} />
                 <Navigation options={props.options} click={props.toggleSelect} />
             </main>
         </div>
