@@ -7,18 +7,8 @@ import {
   createMuiTheme
 } from "@material-ui/core";
 
-import Graph from './components/graph';
-import Navigation from './components/nav'
 import { Container } from '@material-ui/core';
 import ResponsiveDrawer from './components/drawer'
-const MyContainer = styled(Container)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
-  // remove height later
-  height: '100vh'
-})
 
 const theme = createMuiTheme({
   palette: {
@@ -30,10 +20,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dates: { fromdate: new Date('2014-08-18'), todate: new Date('2018-08-18') },
       options: [{ name: 'CO2', selected: true }, { name: 'SO2', selected: false }, { name: 'CO', selected: true }, { name: 'NO2', selected: false }],
       categories: [{ name: 'A', range: 100, currentValue: 20 }, { name: 'B', range: '200', currentValue: 10 }, { name: 'C', range: 1000, currentValue: 100 }]
     }
-    this.toggleSelect.bind(this);
   }
 
   toggleSelect(i) {
@@ -49,13 +39,19 @@ class App extends React.Component {
     }
     )
   }
+  changeDate(type, date) {
+    this.setState(state => {
+      state.dates[type] = date;
+      return state
+    })
+  }
   render() {
     return (
       <>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <ResponsiveDrawer categories={this.state.categories} setValue={this.changeValue.bind(this)} />
-          <Navigation options={this.state.options} click={this.toggleSelect.bind(this)} />
+          <ResponsiveDrawer dates={this.state.dates} changeDates={this.changeDate.bind(this)} categories={this.state.categories} setValue={this.changeValue.bind(this)} options={this.state.options} toggleSelect={this.toggleSelect.bind(this)} />
+
         </ThemeProvider>
       </>
     )

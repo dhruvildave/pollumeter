@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,6 +13,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import ParaBlock from './parablock';
 import Graph from './graph';
 import Navigation from './nav';
+import DatePicker from './datepicker'
 const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
@@ -37,6 +39,9 @@ const useStyles = makeStyles(theme => ({
         },
     },
     toolbar: theme.mixins.toolbar,
+    space: {
+        height: '3em',
+    },
     drawerPaper: {
         width: drawerWidth,
     },
@@ -58,7 +63,12 @@ function ResponsiveDrawer(props) {
 
     const drawer = (
         <div>
-            <div className={classes.toolbar} />
+            <div className={classes.space} />
+            <DatePicker date={props.dates.fromdate} type={"fromdate"} changeDates={props.changeDates} />
+            <DatePicker date={props.dates.todate} type={"todate"} changeDates={props.changeDates} />
+            <div className={classes.space} />
+            <Divider />
+            <div className={classes.space} />
             <ParaBlock categories={props.categories} setValue={props.setValue} />
         </div>
     );
@@ -117,7 +127,7 @@ function ResponsiveDrawer(props) {
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Graph className={classes.content} />
-                <Navigation options={this.props.options} click={this.props.toogleSelect} />
+                <Navigation options={props.options} click={props.toggleSelect} />
             </main>
         </div>
     );

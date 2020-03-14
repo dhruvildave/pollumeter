@@ -8,7 +8,7 @@ const NavDiv = styled(Box)({
     flexDirection: 'column',
     position: 'fixed',
     right: '50px',
-    top: '5vh',
+    top: '10vh',
     borderRadius: '10px',
 })
 const NavBtn = styled(Button)({
