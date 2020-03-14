@@ -1,26 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { styled } from '@material-ui/core/styles';
+import Graph from './components/graph';
+import Navigation from './components/nav'
+import { Container } from '@material-ui/core';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const MyContainer = styled(Container)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  // remove height later
+  height: '100vh'
+})
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      options: [{ name: 'CO2', selected: true }, { name: 'SO2', selected: false }, { name: 'CO', selected: true }, { name: 'NO2', selected: false }]
+    }
+    this.click.bind(this);
+  }
+
+  click(i) {
+    this.setState(state => {
+      state.options[i].selected = !state.options[i].selected
+      return state
+    })
+  }
+  render() {
+    return (
+      <>
+        <Navigation options={this.state.options} click={this.click.bind(this)} />
+        <MyContainer className="App">
+          <div><Graph /></div>
+        </MyContainer>
+      </>
+    )
+  }
 }
 
 export default App;
