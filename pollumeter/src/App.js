@@ -4,7 +4,8 @@ import { styled } from '@material-ui/core/styles';
 import Graph from './components/graph';
 import Navigation from './components/nav'
 import { Container } from '@material-ui/core';
-import ParaBlock from './components/parablock'
+import ParaBlock from './components/parablock';
+import ResponsiveDrawer from './components/drawer'
 const MyContainer = styled(Container)({
   display: 'flex',
   justifyContent: 'center',
@@ -17,7 +18,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: [{ name: 'CO2', selected: true }, { name: 'SO2', selected: false }, { name: 'CO', selected: true }, { name: 'NO2', selected: false }, { name: 'Arpit', selected: true }],
+      options: [{ name: 'CO2', selected: true }, { name: 'SO2', selected: false }, { name: 'CO', selected: true }, { name: 'NO2', selected: false }],
       categories: [{ name: 'A', range: 100, currentValue: 20 }, { name: 'B', range: '200', currentValue: 10 }, { name: 'C', range: 1000, currentValue: 100 }]
     }
     this.toggleSelect.bind(this);
@@ -39,12 +40,10 @@ class App extends React.Component {
   render() {
     return (
       <>
+        <ResponsiveDrawer categories={this.state.categories} setValue={this.changeValue.bind(this)} />
         <Navigation options={this.state.options} click={this.toggleSelect.bind(this)} />
         <MyContainer className="App">
           <div><Graph /></div>
-          <div>
-            <ParaBlock categories={this.state.categories} setValue={this.changeValue.bind(this)} />
-          </div>
         </MyContainer>
       </>
     )
