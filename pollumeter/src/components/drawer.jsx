@@ -1,15 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import ParaBlock from './parablock';
+import Graph from './graph';
+import Navigation from './nav';
 const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
     root: {
-        backgroundColor: 'grey',
         display: 'flex',
     },
     drawer: {
@@ -18,9 +24,25 @@ const useStyles = makeStyles(theme => ({
             flexShrink: 0,
         },
     },
+    appBar: {
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
     },
 }));
 
@@ -41,9 +63,26 @@ function ResponsiveDrawer(props) {
         </div>
     );
 
+
     return (
         <div className={classes.root}>
             <CssBaseline />
+            <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="subtitle1" noWrap>
+                        Responsive drawer
+          </Typography>
+                </Toolbar>
+            </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
@@ -75,6 +114,11 @@ function ResponsiveDrawer(props) {
                     </Drawer>
                 </Hidden>
             </nav>
+            <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <Graph className={classes.content} />
+                <Navigation options={this.props.options} click={this.props.toogleSelect} />
+            </main>
         </div>
     );
 }

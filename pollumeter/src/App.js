@@ -1,10 +1,15 @@
 import React from 'react';
 import './App.css';
 import { styled } from '@material-ui/core/styles';
+import { ThemeProvider } from "@material-ui/styles";
+import {
+  CssBaseline,
+  createMuiTheme
+} from "@material-ui/core";
+
 import Graph from './components/graph';
 import Navigation from './components/nav'
 import { Container } from '@material-ui/core';
-import ParaBlock from './components/parablock';
 import ResponsiveDrawer from './components/drawer'
 const MyContainer = styled(Container)({
   display: 'flex',
@@ -14,6 +19,13 @@ const MyContainer = styled(Container)({
   // remove height later
   height: '100vh'
 })
+
+const theme = createMuiTheme({
+  palette: {
+    type: "dark"
+  }
+});
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -40,11 +52,11 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <ResponsiveDrawer categories={this.state.categories} setValue={this.changeValue.bind(this)} />
-        <Navigation options={this.state.options} click={this.toggleSelect.bind(this)} />
-        <MyContainer className="App">
-          <div><Graph /></div>
-        </MyContainer>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <ResponsiveDrawer categories={this.state.categories} setValue={this.changeValue.bind(this)} />
+          <Navigation options={this.state.options} click={this.toggleSelect.bind(this)} />
+        </ThemeProvider>
       </>
     )
   }

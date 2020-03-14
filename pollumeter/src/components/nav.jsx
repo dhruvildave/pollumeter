@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Box, Button } from '@material-ui/core';
 
 
-const Nav_Div = styled(Box)({
+const NavDiv = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     position: 'fixed',
@@ -11,23 +11,23 @@ const Nav_Div = styled(Box)({
     top: '5vh',
     borderRadius: '10px',
 })
-const Nav_Btn = styled(Button)({
+const NavBtn = styled(Button)({
     borderRadius: 0,
     margin: 0,
 })
 
 export default class Navigation extends React.Component {
     render() {
-        return (<Nav_Div>
+        return (<NavDiv>
             {
                 this.props.options.map((e, i) => {
-                    if (e.selected == true)
-                        return (<Nav_Btn key={i} m={20} variant="contained" color="primary" selected={e.selected} onClick={() => this.props.click(i)}>{e.name}</Nav_Btn>)
+                    if (e.selected === true)
+                        return (<NavBtn key={i} m={20} variant="contained" color="primary" selected={e.selected} onClick={() => this.props.click(i)}>{e.name}</NavBtn>)
                     else
-                        return (<Nav_Btn key={i} m={20} variant="outlined" color="primary" selected={e.selected} onClick={() => this.props.click(i)}>{e.name}</Nav_Btn>)
+                        return (<NavBtn key={i} m={20} variant="outlined" color="primary" selected={e.selected} onClick={() => this.props.click(i)}>{e.name}</NavBtn>)
 
                 })
             }
-        </Nav_Div>)
+        </NavDiv>)
     }
 }
