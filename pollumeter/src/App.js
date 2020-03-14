@@ -4,11 +4,12 @@ import { styled } from '@material-ui/core/styles';
 import Graph from './components/graph';
 import Navigation from './components/nav'
 import { Container } from '@material-ui/core';
-
+import ParaBlock from './components/parablock'
 const MyContainer = styled(Container)({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  flexDirection: 'column',
   // remove height later
   height: '100vh'
 })
@@ -16,23 +17,34 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: [{ name: 'CO2', selected: true }, { name: 'SO2', selected: false }, { name: 'CO', selected: true }, { name: 'NO2', selected: false }]
+      options: [{ name: 'CO2', selected: true }, { name: 'SO2', selected: false }, { name: 'CO', selected: true }, { name: 'NO2', selected: false }, { name: 'Arpit', selected: true }],
+      categories: [{ name: 'A', range: 100, currentValue: 20 }, { name: 'B', range: '200', currentValue: 10 }, { name: 'C', range: 1000, currentValue: 100 }]
     }
-    this.click.bind(this);
+    this.toggleSelect.bind(this);
   }
 
-  click(i) {
+  toggleSelect(i) {
     this.setState(state => {
-      state.options[i].selected = !state.options[i].selected
-      return state
+      state.options[i].selected = !state.options[i].selected;
+      return state;
     })
+  }
+  changeValue(index, newValue) {
+    this.setState(state => {
+      state.categories[index].currentValue = newValue;
+      return state;
+    }
+    )
   }
   render() {
     return (
       <>
-        <Navigation options={this.state.options} click={this.click.bind(this)} />
+        <Navigation options={this.state.options} click={this.toggleSelect.bind(this)} />
         <MyContainer className="App">
           <div><Graph /></div>
+          <div>
+            <ParaBlock categories={this.state.categories} setValue={this.changeValue.bind(this)} />
+          </div>
         </MyContainer>
       </>
     )
