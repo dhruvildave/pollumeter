@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 
 class pollimetermodel(models.Model):
     datetime = models.DateTimeField(auto_now=False, blank=True)

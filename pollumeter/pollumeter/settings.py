@@ -125,6 +125,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-GRAPHENE={
-    'SCHEMA':'pollumeter.schema.schema',
+GRAPHENE = {
+    'SCHEMA': 'pollumeter.schema.schema',
 }
