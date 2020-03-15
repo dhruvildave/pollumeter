@@ -35,7 +35,6 @@ const FEED_QUERY = gql`
       area: "Foster"
       startdatetime: "2017-11-18"
       enddatetime: "2017-12-18"
-      numberrecords: 20
     ) {
       datetime
       polCo2
@@ -49,50 +48,21 @@ const FEED_QUERY = gql`
     }
   }
 `;
-class Outer extends React.Component {
+export default class Outer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dates: {
-        fromdate: new Date("2018-07-18"),
+        fromdate: new Date("2018-05-18"),
         todate: new Date("2018-08-18")
-      }
-    };
-  }
-}
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    // try query
-    // try query end
-    this.state = {
-      options: [
-        { name: "CO2", selected: true },
-        { name: "SO2", selected: false },
-        { name: "CO", selected: true },
-        { name: "NO2", selected: false }
-      ],
+      },
       categories: [
         { name: "Industrial Production Index", range: 100, currentValue: 15 },
         { name: "Traffic", range: "200", currentValue: 10 }
-      ],
-      data_cat: [
-        "polCo2",
-        "polSo2",
-        "polNo2",
-        "polCo",
-        "polPm10",
-        "polPm25",
-        "aqi"
       ]
     };
-  }
-
-  toggleSelect(i) {
-    this.setState(state => {
-      state.options[i].selected = !state.options[i].selected;
-      return state;
-    });
+    this.changeDate.bind(this);
+    this.changeValue.bind(this);
   }
   changeValue(index, newValue) {
     this.setState(state => {
@@ -108,6 +78,36 @@ class App extends React.Component {
   }
   render() {
     return (
+      <App
+        changeValue={this.changeValue.bind(this)}
+        changeDate={this.changeDate.bind(this)}
+        dates={this.state.dates}
+        categories={this.state.categories}
+      />
+    );
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    // try query
+    // try query end
+    this.state = {
+      data_cat: [
+        "polCo2",
+        "polSo2",
+        "polNo2",
+        "polCo",
+        "polPm10",
+        "polPm25",
+        "aqi"
+      ]
+    };
+  }
+
+  render() {
+    return (
       <>
         <ApolloProvider client={client}>
           <ThemeProvider theme={theme}>
@@ -118,17 +118,15 @@ class App extends React.Component {
                   if (loading) return <div>Loading</div>;
                   if (error) return <div>We Fucked Up</div>;
 
-                  console.log(data.datapol);
                   return (
                     <ResponsiveDrawer
                       data_cat={this.state.data_cat}
                       data={data.datapol}
-                      dates={this.state.dates}
-                      changeDates={this.changeDate.bind(this)}
-                      categories={this.state.categories}
-                      setValue={this.changeValue.bind(this)}
+                      dates={this.props.dates}
+                      changeDates={this.props.changeDate}
+                      categories={this.props.categories}
+                      setValue={this.props.changeValue}
                       options={this.state.options}
-                      toggleSelect={this.toggleSelect.bind(this)}
                     />
                   );
                 }}
@@ -140,5 +138,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;

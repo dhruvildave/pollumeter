@@ -12,9 +12,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ParaBlock from "./parablock";
 import Graph from "./graph";
-import Navigation from "./nav";
 import DatePicker from "./datepicker";
 import Button from "@material-ui/core/Button";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import Example from "./piechart";
 const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
@@ -66,7 +69,19 @@ function ResponsiveDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  let a = props.categories[0].currentValue;
+  let b = props.categories[1].currentValue;
+  console.log(a, b);
+  let PredQuery = gql`
+    {
+      predict(indpro: 1, traf: 40) {
+        aqi
+        aqi2
+        aqi3
+        aqi4
+      }
+    }
+  `;
   const drawer = (
     <div>
       <div className={classes.space} />
@@ -144,15 +159,51 @@ function ResponsiveDrawer(props) {
           key={1}
           className={classes.content}
           data={props.data}
-          data_cat={["polCo2", "aqi"]}
+          data_cat={["aqi"]}
         />
-
         <Graph
           key={2}
           className={classes.content}
           data={props.data}
+          data_cat={["polCo2"]}
+        />
+        <Graph
+          key={3}
+          className={classes.content}
+          data={props.data}
           data_cat={["polSo2", "polNo2", "polCo", "polPm10", "polPm25"]}
         />
+        <Query query={PredQuery}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Loading</div>;
+            if (error) return <div>We Fucked Up</div>;
+            console.log(data);
+            return (
+              <LineChart
+                width={1000}
+                height={600}
+                data={[
+                  { name: "A", a: data.predict.aqi },
+                  { name: "B", a: data.predict.aqi2 },
+                  { name: "C", a: data.predict.aqi3 },
+                  { name: "D", a: data.predict.aqi4 }
+                ]}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5
+                }}
+              >
+                <XAxis />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="a" />
+              </LineChart>
+            );
+          }}
+        </Query>
       </main>
     </div>
   );
