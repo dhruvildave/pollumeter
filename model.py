@@ -23,8 +23,6 @@ def preprocess_df(df: pd.DataFrame) -> np.ndarray:
         ],
         inplace=True,
     )
-    # df = df[['weather_temp']]
-    df = df[:75000]
 
     return df.to_numpy()
 
