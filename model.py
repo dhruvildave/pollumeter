@@ -43,11 +43,7 @@ def create_model(data: np.ndarray) -> models.Sequential:
     return model
 
 
-def train() -> None:
-    pass
-
-
-def main() -> None:
+def main() -> np.ndarray:
     if not os.path.exists('model.h5'):
         df: pd.DataFrame = pd.read_csv('final_df.csv')
 
@@ -90,8 +86,7 @@ def main() -> None:
     else:
         model = models.load_model('model.h5')
 
-    pred = model.predict(df_trainset)
-    print(pred)
+    return model.predict(df_trainset)
 
 
 if __name__ == '__main__':
