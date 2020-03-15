@@ -23,13 +23,8 @@ def preprocess_df(df: pd.DataFrame) -> np.ndarray:
         ],
         inplace=True,
     )
-    # df = df[['weather_temp']]
-    df = df[:75000]
 
     df_arr = df.to_numpy()
-
-    # for i, _ in enumerate(df_arr):
-    #     df_arr[i, 0] = np.datetime64(df_arr[i, 0])
 
     return df_arr
 

@@ -15,13 +15,22 @@ class pollimetermodel(models.Model):
     aqi = models.FloatField()
     lat = models.FloatField()
     long = models.FloatField()
-    fac_indfood = models.FloatField()
-    fac_indpharm = models.FloatField()
-    fac_indtech = models.FloatField()
-    fac_indman = models.FloatField()
-    fac_indfert = models.FloatField()
+    indpro = models.FloatField()
+
     area = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     active_population = models.FloatField()
-    fac_avg_speed = models.FloatField()
+    traf = models.FloatField()
     barometric_pressure = models.FloatField(null=True)
+
+
+class predicted(models.Model):
+    aqi = models.FloatField()
+    aqi2 = models.FloatField()
+    aqi3 = models.FloatField()
+    aqi4 = models.FloatField()
+
+
+class bar_char(models.Model):
+    traf = models.FloatField()
+    industrialproduction = models.FloatField()

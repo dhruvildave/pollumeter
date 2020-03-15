@@ -3,6 +3,8 @@ from graphene_django import DjangoObjectType
 from django.db.models import Q
 from datetime import datetime
 from .models import pollimetermodel
+from .models import predicted
+from .models import bar_char
 
 
 class pollumeterType(DjangoObjectType):
@@ -28,7 +30,23 @@ class Query(graphene.ObjectType):
             return pollimetermodel.objects.filter((Q(area__icontains=area)))
         return pollimetermodel.objects.all()
 
+    predict = graphene.List(
+        predicted, indpro=graphene.Float(), traf=graphene.Float())
 
+    def resolve_predict(self, info, indpro, traf):
+        # load trained model
+        # a=model.predict(indpro,traf)
+        return predicted(a[0], a[1], a[2], a[3])
+
+    piechar = graphene.List(
+        bar_char, indpro=graphene.Float(), traf=graphene.Float())
+
+    def resolve_piechar(self, info, indpro, traf):
+        # a=model.predict(indpro,traf)
+        # b=model.predict(0,traf)
+        # c=model.predict(indrpo.traf)
+
+        return bar_char(b*100/a, c*100/a)
 # query{
 #     datapol(area: "Foster", startdatetime: "2016-12-18", enddatetime: "2017-12-18"){
 #         datetime
