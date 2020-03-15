@@ -85,9 +85,9 @@ def train() -> None:
         model.save('model.h5')
 
 
-def main(df_trainset: pd.DataFrame) -> np.ndarray:
+def main(values: np.ndarray) -> np.ndarray:
     model = models.load_model('model.h5')
-    return model.predict(df_trainset)
+    return model.predict(values)
 
 
 if __name__ == '__main__':
