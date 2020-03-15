@@ -14,6 +14,8 @@ import ParaBlock from "./parablock";
 import Graph from "./graph";
 import Navigation from "./nav";
 import DatePicker from "./datepicker";
+import Graph1 from './graph1';
+import Button from '@material-ui/core/Button'
 const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
@@ -83,6 +85,8 @@ function ResponsiveDrawer(props) {
       <Divider />
       <div className={classes.space} />
       <ParaBlock categories={props.categories} setValue={props.setValue} />
+      <Divider />
+      <Button />
     </div>
   );
 
@@ -151,6 +155,7 @@ function ResponsiveDrawer(props) {
           data={props.data}
           data_cat={["polSo2", "polNo2", "polCo", "polPm10", "polPm25"]}
         />
+        <Graph1 />
       </main>
     </div>
   );

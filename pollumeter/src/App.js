@@ -10,7 +10,7 @@ import { Query } from "react-apollo";
 import "./App.css";
 import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline, createMuiTheme } from "@material-ui/core";
-
+import Graph1 from './components/graph1';
 import ResponsiveDrawer from "./components/drawer";
 
 // 2
@@ -174,8 +174,7 @@ class App extends React.Component {
             </Suspense>
           </ThemeProvider>
         </ApolloProvider>
-        ,
-      </>
+
     );
   }
 }
