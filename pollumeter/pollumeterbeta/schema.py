@@ -36,7 +36,8 @@ class Query(graphene.ObjectType):
     def resolve_predict(self, info, indpro, traf):
         # load trained model
         # a=model.predict(indpro,traf)
-        return predicted(a[0], a[1], a[2], a[3])
+        # return predicted(a[0], a[1], a[2], a[3])
+        pass
 
     piechar = graphene.List(
         bar_char, indpro=graphene.Float(), traf=graphene.Float())
