@@ -43,7 +43,7 @@ def create_model(data: np.ndarray) -> models.Sequential:
     return model
 
 
-def main() -> np.ndarray:
+def train() -> None:
     if not os.path.exists('model.h5'):
         df: pd.DataFrame = pd.read_csv('final_df.csv')
 
@@ -83,9 +83,10 @@ def main() -> np.ndarray:
         model = create_model(data=df_train)
         history = model.fit(df_trainset, df_yset, epochs=10)
         model.save('model.h5')
-    else:
-        model = models.load_model('model.h5')
 
+
+def main(df_trainset: pd.DataFrame) -> np.ndarray:
+    model = models.load_model('model.h5')
     return model.predict(df_trainset)
 
 
