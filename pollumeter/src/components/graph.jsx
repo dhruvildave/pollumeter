@@ -1,13 +1,5 @@
 import React, { PureComponent } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend
-} from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
 const colors = ["#8884d8", "#82ca9d", "#a222c2", "#ffaa23"];
 

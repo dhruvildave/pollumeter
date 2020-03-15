@@ -14,8 +14,7 @@ import ParaBlock from "./parablock";
 import Graph from "./graph";
 import Navigation from "./nav";
 import DatePicker from "./datepicker";
-import Graph1 from './graph1';
-import Button from '@material-ui/core/Button'
+import Button from "@material-ui/core/Button";
 const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
@@ -140,7 +139,6 @@ function ResponsiveDrawer(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <Navigation options={props.options} click={props.toggleSelect} />
       <main className={classes.content}>
         <Graph
           key={1}
@@ -155,7 +153,6 @@ function ResponsiveDrawer(props) {
           data={props.data}
           data_cat={["polSo2", "polNo2", "polCo", "polPm10", "polPm25"]}
         />
-        <Graph1 />
       </main>
     </div>
   );
