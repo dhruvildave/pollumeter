@@ -46,7 +46,12 @@ const useStyles = makeStyles(theme => ({
         width: drawerWidth,
     },
     content: {
+        marginTop: '10vh',
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
         flexGrow: 1,
+        flexWrap: 'wrap',
         padding: theme.spacing(3),
     },
 }));
@@ -124,10 +129,12 @@ function ResponsiveDrawer(props) {
                     </Drawer>
                 </Hidden>
             </nav>
+            <Navigation options={props.options} click={props.toggleSelect} />
             <main className={classes.content}>
-                <div className={classes.toolbar} />
                 <Graph className={classes.content} data={props.data} data_cat={props.data_cat} />
-                <Navigation options={props.options} click={props.toggleSelect} />
+
+                <Graph className={classes.content} data={props.data} data_cat={props.data_cat} />
+
             </main>
         </div>
     );
