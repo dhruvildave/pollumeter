@@ -26,21 +26,14 @@ def preprocess_df(df: pd.DataFrame) -> np.ndarray:
     # df = df[['weather_temp']]
     df = df[:75000]
 
-    df_arr = df.to_numpy()
-
-    # for i, _ in enumerate(df_arr):
-    #     df_arr[i, 0] = np.datetime64(df_arr[i, 0])
-
-    return df_arr
+    return df.to_numpy()
 
 
 def create_model(data: np.ndarray) -> models.Sequential:
     model = models.Sequential([
-        layers.LSTM(150,
-                    return_sequences=True,
-                    input_shape=[100, data.shape[2]]),
-        layers.LSTM(110, return_sequences=True),
-        layers.TimeDistributed(layers.Dense(17)),
+        layers.Dense(20, activation='relu', input_shape=[2]),
+        layers.Dense(10, activation='relu'),
+        layers.Dense(5),
     ])
 
     model.compile(loss='mse',
@@ -52,35 +45,44 @@ def create_model(data: np.ndarray) -> models.Sequential:
 
 def main() -> None:
     df: pd.DataFrame = pd.read_csv('final_df.csv')
-    df: np.ndarray = preprocess_df(df)
-    a = np.max(df)
-    df = df / np.max(df)
+
+    df = df[['weather_temp', 'indpro', 'traf', 'aqi', 'weather_humidity']]
+    df['nextaqi'] = 0
+    df['next2aqi'] = 0
+    df['next3aqi'] = 0
+    df['next4aqi'] = 0
+    df['next5aqi'] = 0
+    df['next6aqi'] = 0
+    df['next7aqi'] = 0
+    df['next8aqi'] = 0
+    df['next9aqi'] = 0
+    df['next10aqi'] = 0
+
+    df['SMAaqi'] = df.aqi.rolling(5).mean()
+    df['SMAaqi10'] = df.aqi.rolling(10).mean()
 
     # df = df.reshape(df.shape[0], df.shape[1], 1)
-    n = 75000
-    samples = []
-    length = 100
-    for i in range(0, n, length):
-        sample = df[i:i + length]
-        samples.append(sample)
+    for i in range(len(df) - 11):
+        df['nextaqi'][i] = df['aqi'][i + 1]
+        df['next2aqi'][i] = df['aqi'][i + 2]
+        df['next3aqi'][i] = df['aqi'][i + 3]
+        df['next4aqi'][i] = df['aqi'][i + 4]
+        df['next5aqi'][i] = df['aqi'][i + 5]
+        df['next6aqi'][i] = df['aqi'][i + 6]
+        df['next7aqi'][i] = df['aqi'][i + 7]
+        df['next8aqi'][i] = df['aqi'][i + 8]
+        df['next9aqi'][i] = df['aqi'][i + 9]
+        df['next10aqi'][i] = df['aqi'][i + 10]
 
-    print(len(samples))
-    # df = df.reshape((len(samples), length, 17))
+    df_train = df[:50000]
+    df_trainset = df_train[['indpro', 'traf']]
+    df_yset = df_train[['aqi', 'nextaqi', 'next2aqi', 'next3aqi', 'next4aqi']]
+    model = create_model(data=df_train)
+    history = model.fit(df_trainset, df_yset, epochs=10)
+    model.save('model.h5')
 
-    samples = np.array(samples)
-    # samples = samples / max(samples)
-    print(samples.shape)
-    X_train = samples[:600]
-    # X_test = samples[70000:]
-    y_train = samples[100:700]
-    # y_test = samples[7000:]
-
-    model = create_model(data=samples)
-    # print(model.summary())
-    history = model.fit(X_train, y_train, epochs=30)
-
-    x = model.predict([X_train]) * a
-    print(x)
+    pred = model.predict(df_trainset)
+    print(pred)
 
 
 if __name__ == '__main__':
