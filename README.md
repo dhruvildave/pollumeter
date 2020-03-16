@@ -10,3 +10,16 @@
 - ReactJS
 - Apollo
 - Recharts
+
+## Starting Pollumeter
+```sh
+cd pollumeter
+python manage.py runserver
+// start backend
+
+cd ..
+
+cd pollumeter-fe/
+npm i //install add frontend packages
+npm start // start frontend 
+```
